@@ -1,4 +1,4 @@
-# CinePlay — cinema screens for your server
+# CinePlay
 
 Frame a rectangle on a wall with a command, and play a Bilibili video on it.
 **Playback starts when players walk close and stops when they leave.**
@@ -12,7 +12,7 @@ only decides *what* plays, *where*, and *from when*.
 
 ---
 
-## How it differs from map-art / entity screens
+## Features
 
 - **Zero footprint**: a screen is only coordinates — stick it on a wall, float it in the air, hang it
   over water, even watch it through glass
@@ -25,7 +25,7 @@ only decides *what* plays, *where*, and *from when*.
 
 ---
 
-## Creating a screen
+## Creating
 
 ```
 /cineplay create                 enter selection mode (auto-cancels after 5 minutes)
@@ -54,7 +54,7 @@ Geometry rules:
 Everything is screen-centric. There is deliberately **no "play for one specific player"** mode —
 a screen belongs to the world, so whoever walks close sees it.
 
-### Menu (recommended)
+### Menu
 
 ```
 /cineplay menu
@@ -76,7 +76,7 @@ The screen page has every action as a button:
 Actions that need a value (add / volume / range / grant) ask you to **type the value in chat** after
 clicking — no command syntax to remember, and normal chat keeps working afterwards.
 
-### Command reference
+### Reference
 
 | Command | Purpose |
 | --- | --- |
@@ -95,7 +95,7 @@ clicking — no command syntax to remember, and normal chat keeps working afterw
 
 ---
 
-## Permissions — per screen
+## Permissions
 
 | Role | Control playback | Delete screen | Grant others |
 | --- | --- | --- | --- |
@@ -110,7 +110,7 @@ everyone only grants usage — nobody gains the right to delete it that way.
 
 ---
 
-## Playlist behaviour
+## Playlist
 
 - Added items queue up; when one finishes the next starts automatically
 - **Duration** comes from `/cineplay add <screen> <url> 300` if you provide it; otherwise the plugin
@@ -123,7 +123,7 @@ everyone only grants usage — nobody gains the right to delete it that way.
 
 ---
 
-## Configuration (`plugins/CinePlay/config.yml`)
+## Configuration
 
 | Key | Default | Meaning |
 | --- | --- | --- |
