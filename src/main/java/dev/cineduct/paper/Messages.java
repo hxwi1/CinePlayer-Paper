@@ -22,21 +22,21 @@ final class Messages {
 
     static void ok(CommandSender to, String text) {
         to.sendMessage(Component.text(PREFIX, NamedTextColor.AQUA)
-                .append(Component.text(Lang.render(to, text), NamedTextColor.WHITE)));
+                .append(Component.text(Lang.render(text), NamedTextColor.WHITE)));
     }
 
     static void note(CommandSender to, String text) {
-        to.sendMessage(Component.text("  " + Lang.render(to, text), NamedTextColor.GRAY));
+        to.sendMessage(Component.text("  " + Lang.render(text), NamedTextColor.GRAY));
     }
 
     static void warn(CommandSender to, String text) {
         to.sendMessage(Component.text(PREFIX, NamedTextColor.GOLD)
-                .append(Component.text(Lang.render(to, text), NamedTextColor.YELLOW)));
+                .append(Component.text(Lang.render(text), NamedTextColor.YELLOW)));
     }
 
     static void error(CommandSender to, String text) {
         to.sendMessage(Component.text(PREFIX, NamedTextColor.RED)
-                .append(Component.text(Lang.render(to, text), NamedTextColor.RED)));
+                .append(Component.text(Lang.render(text), NamedTextColor.RED)));
     }
 
     /**
@@ -54,7 +54,7 @@ final class Messages {
 
     /** 同上，但返回 Component —— 用来把多个按钮拼在**同一行**（会按发送者语言翻译）。 */
     static Component actionComponent(CommandSender to, String text, String command, String hover) {
-        return actionComponentRender(Lang.render(to, text), Lang.render(to, hover), command);
+        return actionComponentRender(Lang.render(text), Lang.render(hover), command);
     }
 
     /** 旧签名：没有发送者上下文，不翻译。 */
@@ -77,7 +77,7 @@ final class Messages {
 
     /** 同上，但返回 Component —— 用来把多个按钮拼在**同一行**（会按发送者语言翻译）。 */
     static Component suggestComponent(CommandSender to, String text, String command, String hover) {
-        return suggestComponentRender(Lang.render(to, text), Lang.render(to, hover), command);
+        return suggestComponentRender(Lang.render(text), Lang.render(hover), command);
     }
 
     /** 旧签名：没有发送者上下文，不翻译。 */

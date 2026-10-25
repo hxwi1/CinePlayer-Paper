@@ -883,7 +883,7 @@ final class CinePlayCommands {
             }
             final String state = s.finished ? "播完" : (s.playlist.isEmpty() ? "空"
                     : (s.paused ? "暂停" : "播放中"));
-        final String stateText = Lang.render(sender, state);
+        final String stateText = Lang.render(state);
             final String pos = s.playlist.isEmpty() ? ""
                     : " " + mmss(s.currentPositionMs()) + (s.currentDurationSec() > 0
                             ? "/" + mmss(s.currentDurationSec() * 1000L) : "");
@@ -971,7 +971,7 @@ final class CinePlayCommands {
     private void rebuildHelp() {
         final List<Component> lines = new ArrayList<>();
         lines.add(Component.text("[CinePlay] ", NamedTextColor.AQUA)
-                .append(Component.text(Lang.render(null, "服务端建虚拟屏幕，客户端走近自动播放"), NamedTextColor.WHITE)));
+                .append(Component.text(Lang.render("服务端建虚拟屏幕，客户端走近自动播放"), NamedTextColor.WHITE)));
 
         lines.add(line("菜单", "/cineplay menu", "聊天栏里点着用，一块屏一行"));
         lines.add(line("列出屏幕", "/cineplay screens", "全部屏幕（不筛选）"));
@@ -995,9 +995,9 @@ final class CinePlayCommands {
     /** 帮助里的一行：`/指令` 可点（点了填进输入框）+ 灰色说明。 */
     private static Component line(String label, String command, String description) {
         return Component.text("  ")
-                .append(Messages.suggestComponent(command, command, Lang.render(null, description)))
-                .append(Component.text("  " + Lang.render(null, label), NamedTextColor.GRAY))
-                .append(Component.text("  " + Lang.render(null, description), NamedTextColor.DARK_GRAY));
+                .append(Messages.suggestComponent(command, command, Lang.render(description)))
+                .append(Component.text("  " + Lang.render(label), NamedTextColor.GRAY))
+                .append(Component.text("  " + Lang.render(description), NamedTextColor.DARK_GRAY));
     }
     // =====================================================================
     // 工具

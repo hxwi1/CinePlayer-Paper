@@ -41,7 +41,3 @@ requireChannel: false
 # 这段时间内下一条"像链接"的消息被当作播放源（不会发到聊天栏）；不像链接就放行、状态清掉。
 # 输入 cancel / 取消 可以立刻退出。默认 60。
 pasteTimeoutSeconds: 60
-# 语言：auto = 按玩家客户端语言（中文环境收中文，其它收英文）；
-# 也接受 zh / en 强制指定。控制台与日志用这里的设置。
-# 翻译表在 jar 内的 lang/en_us.yml，可用 plugins/CinePlay/lang/en_us.yml 覆盖或补充。
-language: auto

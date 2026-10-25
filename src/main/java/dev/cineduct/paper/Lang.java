@@ -5,9 +5,8 @@ package dev.cineduct.paper;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.InputStream;
@@ -17,85 +16,91 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * 极简 i18n：**以中文原文为 key** 的翻译表。
+ * 文案表：**一个文件、一种语言、服主自己改**。
  *
- * <p>为什么不用 key（{@code screen.created} 之类）：这个插件的文案散在 70 多处调用里，
- * 换成 key 意味着把每个调用点重写一遍，改动量大、收益只是"看起来规范"。而"原文即 key"
- * 只需要维护一份 yml，代码一个字符都不用改：
+ * <p>文件是 {@code plugins/CinePlay/lang.yml}（首次启动自动生成，内置默认值＝英文）。
+ * 想换中文/日文/别的，直接改右边的值就完事 —— 没有语言开关、没有按玩家语言切换、
+ * 也没有 {@code zh_cn.yml} / {@code en_us.yml} 这种命名。
  *
- * <pre>{@code
- * 中文原文（代码里写死的）            en_us.yml 里的条目
- * "屏幕 main 已创建：2 × 2 格"   →   "屏幕 {} 已创建：{}" : "Screen {0} created: {1}"
- * }</pre>
+ * <h2>key 长什么样</h2>
  *
- * <p>匹配顺序：先精确匹配，再按"带 {@code {}} 通配的模板"匹配（按字面量长度从长到短，
- * 避免短模板抢走长模板的句子）。匹配不到就原样返回中文 —— 宁可露出中文，也不要显示
- * {@code key.not.found}。
+ * <p>key 就是**代码里那句原文**（中文），右边是实际显示的内容。所以：
+ * <pre>
+ * "屏幕 {} 已创建：{}": "Screen {0} created: {1}"
+ * </pre>
+ * 规则：
+ * <ul>
+ *   <li><b>key 不要改</b> —— 它就是代码里的原文；改了这行就再也匹配不上，会退回显示原文</li>
+ *   <li>{@code {}} 是通配（代码里拼进去的参数），数量必须和右边的 {@code {0}} {@code {1}} 对得上</li>
+ *   <li>右边留空或删掉某行 = 这条退回原文显示</li>
+ * </ul>
  *
- * <p>语言判定：玩家取 {@link Player#locale()}，控制台取 {@code config.yml} 的 {@code language}，
- * {@code auto} 时按中文环境收中文、其它收英文。中文环境直接跳过查表（原样输出）。
+ * <p>匹配顺序：先精确匹配，再按带 {@code {}} 的模板匹配（字面量长的优先，
+ * 避免 {@code 第 {} 项} 抢走 {@code 第 {} 项：{}}）。匹配不到就显示代码里的原文。
  */
 final class Lang {
 
-    /** 一条"模板 → 译文"。模板里的 {@code {}} 是通配，译文里的 {@code {0}} 是参数占位。 */
+    /** 文件名（数据目录 + jar 内同名资源）。 */
+    private static final String FILE = "lang.yml";
+
     private record Entry(Pattern pattern, String[] literalParts, String translation) {
     }
 
     private static final List<Entry> ENTRIES = new ArrayList<>();
     private static final Map<String, String> EXACT = new LinkedHashMap<>();
-    private static volatile String fallback = "zh";
+    private static volatile boolean loaded;
 
     private Lang() {
     }
 
-    /**
-     * 载入语言文件（jar 内置 + 数据目录覆盖）。
-     *
-     * @param plugin    插件实例（取数据目录与 config）
-     */
-    static void load(CinePlayPlugin plugin) {
+    /** 载入 jar 内的默认表 + 数据目录的覆盖表（后者优先）。 */
+    static void load(JavaPlugin plugin) {
         ENTRIES.clear();
         EXACT.clear();
-        fallback = plugin.configLanguage();
+        loaded = true;
 
-        // 内置的英文（跟 jar 走），数据目录的 lang/en_us.yml 可以补充或覆盖
-        readResource(plugin, "lang/en_us.yml");
-        readOverride(plugin, "en_us");
-    }
+        readInto(plugin, true);
+        readInto(plugin, false);
 
-    private static void readResource(CinePlayPlugin plugin, String path) {
-        try (InputStream in = plugin.getResource(path)) {
-            if (in == null) return;
-            apply(YamlConfiguration.loadConfiguration(new InputStreamReader(in, StandardCharsets.UTF_8)));
-        } catch (Exception e) {
-            plugin.getLogger().warning("读取内置语言文件失败: " + path + "（" + e.getMessage() + "）");
+        if (EXACT.isEmpty()) {
+            plugin.getLogger().warning("语言文件为空或读不出来，界面将显示代码里的原文");
         }
     }
 
-    private static void readOverride(CinePlayPlugin plugin, String name) {
-        final File f = new File(new File(plugin.getDataFolder(), "lang"), name + ".yml");
-        if (!f.isFile()) return;
+    private static void readInto(JavaPlugin plugin, boolean fromJar) {
+        final YamlConfiguration yaml = new YamlConfiguration();
         try {
-            apply(YamlConfiguration.loadConfiguration(f));
+            if (fromJar) {
+                try (InputStream in = plugin.getResource(FILE)) {
+                    if (in == null) return;
+                    yaml.load(new InputStreamReader(in, StandardCharsets.UTF_8));
+                }
+            } else {
+                final File f = new File(plugin.getDataFolder(), FILE);
+                if (!f.isFile()) return;
+                yaml.load(f);
+            }
         } catch (Exception e) {
-            plugin.getLogger().warning("读取语言文件失败: " + f.getName() + "（" + e.getMessage() + "）");
+            plugin.getLogger().warning("读取 " + (fromJar ? "内置" : "数据目录") + " lang.yml 失败："
+                    + e.getMessage());
+            return;
         }
+        apply(yaml);
     }
 
     private static void apply(YamlConfiguration yaml) {
         for (String key : yaml.getKeys(false)) {
             final String value = yaml.getString(key);
-            if (value == null || value.isBlank()) continue;
-            final String normalized = key.replace("%", "%%");   // yml 里 % 不是特殊字符，这里只是防呆
-            EXACT.put(normalized, value);
-            final String[] parts = normalized.split(Pattern.quote("{}"), -1);
-            if (parts.length == 1) continue;                    // 没有通配：只参与精确匹配
+            if (value == null || value.isBlank()) continue;      // 留空 = 用原文
+            EXACT.put(key, value);
+
+            final String[] parts = key.split(Pattern.quote("{}"), -1);
+            if (parts.length == 1) continue;                     // 无通配：只参与精确匹配
             final StringBuilder regex = new StringBuilder();
             for (int i = 0; i < parts.length; i++) {
                 if (i > 0) regex.append("(.+?)");
@@ -103,7 +108,7 @@ final class Lang {
             }
             ENTRIES.add(new Entry(Pattern.compile("^" + regex + "$"), parts, value));
         }
-        // 长的模板优先：避免 "第 {} 项" 抢走 "第 {} 项：{}"
+        // 长的模板优先
         ENTRIES.sort(Comparator.comparingInt((Entry e) -> longestLiteral(e.literalParts())).reversed());
     }
 
@@ -113,25 +118,16 @@ final class Lang {
         return max;
     }
 
-    /** 这个发送者用什么语言（{@code zh} / {@code en}）。 */
-    static String localeOf(CommandSender sender) {
-        if (sender instanceof Player player) {
-            final String tag = player.locale() == null ? "" : player.locale().toString().toLowerCase(Locale.ROOT);
-            return tag.startsWith("zh") ? "zh" : "en";
-        }
-        return fallback;
-    }
+    /** 查表；查不到原样返回（原文通常就是中文，服主没翻译的条目会看到中文）。 */
+    static String render(String source) {
+        if (source == null || source.isEmpty()) return "";
+        if (!loaded) return source;
 
-    /** 翻译一条已经拼好的中文文案；译不出来就原样返回。 */
-    static String render(CommandSender to, String chinese) {
-        if (chinese == null || chinese.isEmpty()) return "";
-        if ("zh".equals(localeOf(to))) return chinese;
-
-        final String exact = EXACT.get(chinese);
+        final String exact = EXACT.get(source);
         if (exact != null) return exact;
 
         for (Entry entry : ENTRIES) {
-            final Matcher m = entry.pattern().matcher(chinese);
+            final Matcher m = entry.pattern().matcher(source);
             if (!m.matches()) continue;
             String out = entry.translation();
             for (int i = 1; i <= m.groupCount(); i++) {
@@ -139,14 +135,10 @@ final class Lang {
             }
             return out;
         }
-        return chinese;   // 没翻译：露中文也比露 key 好
+        return source;
     }
 
-    // =====================================================================
-    // 便捷包装（顺手把中文原文翻掉）
-    // =====================================================================
-
-    static Component text(CommandSender to, String chinese, NamedTextColor color) {
-        return Component.text(render(to, chinese), color);
+    static Component text(String source, NamedTextColor color) {
+        return Component.text(render(source), color);
     }
 }
