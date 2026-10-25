@@ -967,48 +967,38 @@ final class CinePlayCommands {
         return 1;
     }
 
+    /** 帮助：只列**现在还可用**的指令（老的 to/play/seek/aspect 那套已随虚拟屏模型一起删除）。 */
     private void rebuildHelp() {
         final List<Component> lines = new ArrayList<>();
         lines.add(Component.text("[CinePlay] ", NamedTextColor.AQUA)
-                .append(Component.text("控制装了 CineDuct 模组的客户端播放", NamedTextColor.WHITE)));
-        lines.add(Component.text("  /cineplay play <链接>", NamedTextColor.AQUA)
-                .append(Component.text("            在自己客户端开播", NamedTextColor.GRAY)));
-        lines.add(Component.text("  /cineplay pause|resume|stop", NamedTextColor.AQUA)
-                .append(Component.text("    暂停 / 继续 / 关闭", NamedTextColor.GRAY)));
-        lines.add(Component.text("  /cineplay seek <秒>", NamedTextColor.AQUA)
-                .append(Component.text("            跳转（直播无效）", NamedTextColor.GRAY)));
-        lines.add(Component.text("  /cineplay volume <0-100>", NamedTextColor.AQUA)
-                .append(Component.text("      音量", NamedTextColor.GRAY)));
-        lines.add(Component.text("  /cineplay aspect <比例>", NamedTextColor.AQUA)
-                .append(Component.text("      显示面比例（1.7778 = 16:9；0 = 关闭）", NamedTextColor.GRAY)));
-        lines.add(Component.text("  /cineplay rebuild|list|sync", NamedTextColor.AQUA)
-                .append(Component.text("    重建 / 请求回执 / 对齐", NamedTextColor.GRAY)));
-        lines.add(Component.text("  /cineplay create", NamedTextColor.AQUA)
-                .append(Component.text("              开始选区（木锄右键点两个对角）", NamedTextColor.GRAY)));
-        lines.add(Component.text("  /cineplay confirm <名字>", NamedTextColor.AQUA)
-                .append(Component.text("   确认并命名这块屏", NamedTextColor.GRAY)));
-        lines.add(Component.text("  /cineplay cancel", NamedTextColor.AQUA)
-                .append(Component.text("              放弃这次选区", NamedTextColor.GRAY)));
-        lines.add(Component.text("  /cineplay add [屏幕] <链接> [秒]", NamedTextColor.AQUA)
-                .append(Component.text(" 加入播放列表（秒数可省，插件会自己查）", NamedTextColor.GRAY)));
-        lines.add(Component.text("  /cineplay playlist|next|prev [屏幕]", NamedTextColor.AQUA)
-                .append(Component.text(" 查看 / 切上一条 / 切下一条", NamedTextColor.GRAY)));
-        lines.add(Component.text("  /cineplay screens", NamedTextColor.AQUA)
-                .append(Component.text("             列出所有屏幕与进度", NamedTextColor.GRAY)));
-        lines.add(Component.text("  /cineplay remove <名字>", NamedTextColor.AQUA)
-                .append(Component.text("     删除这块屏（并让客户端停掉播放）", NamedTextColor.GRAY)));        lines.add(Component.text("  /cineplay to <目标> <子指令>", NamedTextColor.AQUA)
-                .append(Component.text(" 对别人执行（@a、玩家名、选择器都行）", NamedTextColor.GRAY)));
-        lines.add(Component.text("  /cineplay slot [名字]", NamedTextColor.AQUA)
-                .append(Component.text("      查看/切换当前操作的槽位", NamedTextColor.GRAY)));
-        lines.add(Component.text("  /cineplay status [玩家]", NamedTextColor.AQUA)
-                .append(Component.text("    通道状态与客户端回执", NamedTextColor.GRAY)));
-        lines.add(Component.text("  /cineplay reload", NamedTextColor.AQUA)
-                .append(Component.text("              重载 config.yml", NamedTextColor.GRAY)));
-        lines.add(Component.text("  客户端要先把 cineduct-packet.json 的 enabled 打开、并把你服务器地址放进 servers",
-                NamedTextColor.DARK_GRAY));
+                .append(Component.text(Lang.render(null, "服务端建虚拟屏幕，客户端走近自动播放"), NamedTextColor.WHITE)));
+
+        lines.add(line("菜单", "/cineplay menu", "聊天栏里点着用，一块屏一行"));
+        lines.add(line("列出屏幕", "/cineplay screens", "全部屏幕（不筛选）"));
+        lines.add(line("建屏", "/cineplay create", "手持木锄右键点两个对角"));
+        lines.add(line("确认建屏", "/cineplay confirm <名字>", "确认并命名这块屏"));
+        lines.add(line("取消选区", "/cineplay cancel", "放弃这次选区"));
+        lines.add(line("加片子", "/cineplay add [屏幕] <链接> [秒]", "秒数可省，插件会自己查时长"));
+        lines.add(line("播放列表", "/cineplay playlist [屏幕]", "看这一屏的列表"));
+        lines.add(line("切条", "/cineplay next|prev [屏幕]", "下一条 / 上一条"));
+        lines.add(line("音量", "/cineplay volume <屏幕> <0-100>", "这块屏的音量"));
+        lines.add(line("范围", "/cineplay range <屏幕> <起播格> [停止格]", "每屏的可视范围"));
+        lines.add(line("管理员", "/cineplay access <屏幕> ...", "能删屏、能授权别人"));
+        lines.add(line("信任", "/cineplay trust <屏幕> ...", "能操控播放，不能删屏"));
+        lines.add(line("删屏", "/cineplay remove <屏幕>", "会先让你确认一次"));
+        lines.add(line("当前屏幕", "/cineplay slot [名字]", "不带屏幕名的指令作用在它上面"));
+        lines.add(line("重载", "/cineplay reload", "重新读 config.yml 与语言文件"));
+
         this.helpCache = List.copyOf(lines);
     }
 
+    /** 帮助里的一行：`/指令` 可点（点了填进输入框）+ 灰色说明。 */
+    private static Component line(String label, String command, String description) {
+        return Component.text("  ")
+                .append(Messages.suggestComponent(command, command, Lang.render(null, description)))
+                .append(Component.text("  " + Lang.render(null, label), NamedTextColor.GRAY))
+                .append(Component.text("  " + Lang.render(null, description), NamedTextColor.DARK_GRAY));
+    }
     // =====================================================================
     // 工具
     // =====================================================================

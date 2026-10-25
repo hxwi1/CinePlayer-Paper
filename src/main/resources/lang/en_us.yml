@@ -160,3 +160,55 @@
 "CinePlay 菜单（{} 块屏）": "CinePlay menu ({0} screens)"
 "CinePlay 菜单（{} 格内 + 你的屏）": "CinePlay menu ({0} blocks around you + your screens)"
 "所有指令都围绕\"屏幕\"。": "All commands are screen-centric."
+
+# ---------- 帮助（指令表） ----------
+"服务端建虚拟屏幕，客户端走近自动播放": "Virtual cinema screens; playback starts when players walk close"
+"菜单": "Menu"
+"列出屏幕": "Screens"
+"建屏": "Create"
+"确认建屏": "Confirm"
+"取消选区": "Cancel"
+"加片子": "Add video"
+"播放列表": "Playlist"
+"切条": "Skip"
+"范围": "Range"
+"删屏": "Delete"
+"当前屏幕": "Current screen"
+"重载": "Reload"
+"重新读 config.yml 与语言文件": "Reload config.yml and language files"
+"聊天栏里点着用，一块屏一行": "Clickable chat menu, one line per screen"
+"全部屏幕（不筛选）": "Every screen, unfiltered"
+"手持木锄右键点两个对角": "Right-click two opposite corners with a wooden hoe"
+"确认并命名这块屏": "Confirm and name this screen"
+"放弃这次选区": "Abandon this selection"
+"秒数可省，插件会自己查时长": "Seconds optional; the plugin looks the duration up"
+"看这一屏的列表": "Show this screen's list"
+"下一条 / 上一条": "Next / previous"
+"这块屏的音量": "Volume of this screen"
+"每屏的可视范围": "Per-screen view distance"
+"能删屏、能授权别人": "Can delete the screen and grant others"
+"能操控播放，不能删屏": "Can control playback, cannot delete"
+"会先让你确认一次": "Asks for confirmation first"
+"不带屏幕名的指令作用在它上面": "Commands without a screen name act on it"
+
+# ---------- 选区 / 粒子 ----------
+"选区开始：手持木锄右键点**两个对角**（射线 64 格内的方块表面）":
+  "Selection started: right-click **two opposite corners** with a wooden hoe (block faces within 64 blocks)"
+"选完用 /cineplay confirm <屏幕名字> 确认，或 /cineplay cancel 放弃":
+  "Then run /cineplay confirm <name> to finish, or /cineplay cancel to abort"
+"第一个角: {}": "First corner: {0}"
+"第二个角: {}": "Second corner: {0}"
+"重新选点：第一个角已更新为 {}": "Re-selecting: first corner updated to {0}"
+"你当前没有在选区": "You are not selecting anything right now"
+"选区超时（5 分钟没操作），已取消": "Selection timed out (5 minutes idle) and was cancelled"
+"已放弃这次选区": "Selection abandoned"
+"矩形边": "Rectangle edge"
+
+# ---------- 状态 / 通道 ----------
+"客户端已通告 {}": "Client advertised {0}"
+"客户端没有通告 {}（requireChannel=true，因此不会发送）":
+  "Client did not advertise {0} (requireChannel=true, so nothing is sent)"
+"客户端没有通告 {}（仍会发送；没装模组就没人处理）":
+  "Client did not advertise {0} (still sent; nothing handles it without the mod)"
+"播完（队列已清空）": "finished (queue cleared)"
+  "{0} more screen(s) hidden (beyond {1} blocks, or not shared with you)"
