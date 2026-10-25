@@ -31,12 +31,11 @@
 ## 安装
 
 1. jar 放进服务器的 `plugins/`，重启。
-2. **客户端**（装了 CineDuct 的玩家）要在 `<游戏目录>/cineduct-packet.json` 里打开闸门：
+2. **客户端**（装了 CineDuct 的玩家）**不需要任何配置**——模组默认对所有服务器生效。
+   可选的安全设置在同名文件 `<游戏目录>/cineduct-packet.json`（不存在就用默认）：
 
 ```json
 {
-  "enabled": true,
-  "servers": ["你的服务器地址"],
   "token": "",
   "disabledOps": [],
   "allowedHosts": ["bilibili.com", "bilibili.tv", "b23.tv", "bilivideo.com", "hdslb.com"],
