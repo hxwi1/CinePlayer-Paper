@@ -883,15 +883,15 @@ final class CinePlayCommands {
             }
             final String state = s.finished ? "播完" : (s.playlist.isEmpty() ? "空"
                     : (s.paused ? "暂停" : "播放中"));
-        final String stateText = Lang.render(state);
+            final String stateText = Lang.render(state);
             final String pos = s.playlist.isEmpty() ? ""
                     : " " + mmss(s.currentPositionMs()) + (s.currentDurationSec() > 0
                             ? "/" + mmss(s.currentDurationSec() * 1000L) : "");
-            final String tag = mine ? "" : (nearby ? "附近 " : "");
+            final String tag = mine ? "" : (nearby ? Lang.render("附近 ") : "");
             sender.sendMessage(Component.text(" " + tag, NamedTextColor.DARK_GRAY)
                     .append(Component.text(name, NamedTextColor.WHITE))
                     .append(Component.text("  [" + stateText + pos + "]", NamedTextColor.GRAY))
-                    .append(Component.text(s.playlist.isEmpty() ? "  —" : "  " + s.playlist.size() + " 项",
+                    .append(Component.text(s.playlist.isEmpty() ? Lang.render("  —") : "  " + s.playlist.size() + Lang.render(" 项"),
                             NamedTextColor.DARK_GRAY))
                     .append(SP)
                     .append(Messages.actionComponent("[管理]", "/cineplay menu " + name, "打开这块屏的操作菜单")));

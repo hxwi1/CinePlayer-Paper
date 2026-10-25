@@ -57,9 +57,9 @@ final class Messages {
         return actionComponentRender(Lang.render(text), Lang.render(hover), command);
     }
 
-    /** 旧签名：没有发送者上下文，不翻译。 */
+    /** 三参重载：也走翻译（现在只有一种语言，不需要发送者上下文）。 */
     static Component actionComponent(String text, String command, String hover) {
-        return actionComponentRender(text, hover, command);
+        return actionComponentRender(Lang.render(text), Lang.render(hover), command);
     }
 
     private static Component actionComponentRender(String text, String hover, String command) {
@@ -80,9 +80,9 @@ final class Messages {
         return suggestComponentRender(Lang.render(text), Lang.render(hover), command);
     }
 
-    /** 旧签名：没有发送者上下文，不翻译。 */
+    /** 三参重载：也走翻译（现在只有一种语言，不需要发送者上下文）。 */
     static Component suggestComponent(String text, String command, String hover) {
-        return suggestComponentRender(text, hover, command);
+        return suggestComponentRender(Lang.render(text), Lang.render(hover), command);
     }
 
     private static Component suggestComponentRender(String text, String hover, String command) {
