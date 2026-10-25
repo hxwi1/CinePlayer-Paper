@@ -211,3 +211,8 @@
   "Client did not advertise {0} (still sent; nothing handles it without the mod)"
 "播完（队列已清空）": "finished (queue cleared)"
   "{0} more screen(s) hidden (beyond {1} blocks, or not shared with you)"
+
+# ---------- 菜单头碎片 ----------
+"  主人 ": "  owner "
+"  音量 ": "  vol "
+"  范围 ": "  range "

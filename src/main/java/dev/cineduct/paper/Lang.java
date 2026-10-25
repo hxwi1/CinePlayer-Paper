@@ -68,7 +68,9 @@ final class Lang {
         readInto(plugin, false);
 
         if (EXACT.isEmpty()) {
-            plugin.getLogger().warning("语言文件为空或读不出来，界面将显示代码里的原文");
+            plugin.getLogger().warning("lang.yml 为空或读不出来，界面将显示代码里的原文");
+        } else {
+            plugin.getLogger().info("已载入 " + EXACT.size() + " 条文案（lang.yml）");
         }
     }
 

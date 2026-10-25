@@ -223,6 +223,7 @@ public final class CinePlayPlugin extends JavaPlugin {
 
     void reloadAll() {
         reloadConfig();
+        Lang.load(this);
         this.commands.reload();
     }
 
