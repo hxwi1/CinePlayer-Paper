@@ -10,7 +10,7 @@
 - 完全解耦：只依赖 Paper API + 插件消息通道，**不需要模组的 jar**
 - 没装模组的玩家不受影响（他们只是看不到屏幕）
 
-协议见 [`PROTOCOL.md`](PROTOCOL.md)。
+协议见 [`PROTOCOL.md`](PROTOCOL.md)。Modrinth 项目描述见 [`MODRINTH-zh.md`](MODRINTH-zh.md) / [`MODRINTH-en.md`](MODRINTH-en.md)。
 
 ## 要求
 
