@@ -983,11 +983,11 @@ final class CinePlayCommands {
         lines.add(line("切条", "/cineplay next|prev [屏幕]", "下一条 / 上一条"));
         lines.add(line("音量", "/cineplay volume <屏幕> <0-100>", "这块屏的音量"));
         lines.add(line("范围", "/cineplay range <屏幕> <起播格> [停止格]", "每屏的可视范围"));
-        lines.add(line("管理员", "/cineplay access <屏幕> ...", "能删屏、能授权别人"));
-        lines.add(line("信任", "/cineplay trust <屏幕> ...", "能操控播放，不能删屏"));
+        lines.add(line("管理员", "/cineplay access <屏幕> add|remove|public|list", "能删屏、能授权别人"));
+        lines.add(line("信任", "/cineplay trust <屏幕> add|remove|list", "能操控播放，不能删屏"));
         lines.add(line("删屏", "/cineplay remove <屏幕>", "会先让你确认一次"));
         lines.add(line("当前屏幕", "/cineplay slot [名字]", "不带屏幕名的指令作用在它上面"));
-        lines.add(line("重载", "/cineplay reload", "重新读 config.yml 与语言文件"));
+        lines.add(line("重载", "/cineplay reload", "重新读配置与文案"));
 
         this.helpCache = List.copyOf(lines);
     }
