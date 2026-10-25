@@ -883,13 +883,14 @@ final class CinePlayCommands {
             }
             final String state = s.finished ? "播完" : (s.playlist.isEmpty() ? "空"
                     : (s.paused ? "暂停" : "播放中"));
+        final String stateText = Lang.render(sender, state);
             final String pos = s.playlist.isEmpty() ? ""
                     : " " + mmss(s.currentPositionMs()) + (s.currentDurationSec() > 0
                             ? "/" + mmss(s.currentDurationSec() * 1000L) : "");
             final String tag = mine ? "" : (nearby ? "附近 " : "");
             sender.sendMessage(Component.text(" " + tag, NamedTextColor.DARK_GRAY)
                     .append(Component.text(name, NamedTextColor.WHITE))
-                    .append(Component.text("  [" + state + pos + "]", NamedTextColor.GRAY))
+                    .append(Component.text("  [" + stateText + pos + "]", NamedTextColor.GRAY))
                     .append(Component.text(s.playlist.isEmpty() ? "  —" : "  " + s.playlist.size() + " 项",
                             NamedTextColor.DARK_GRAY))
                     .append(SP)

@@ -1,0 +1,162 @@
+# CinePlay — English strings
+#
+# Key   = 中文原文（代码里写死的），`{}` 是通配，代表运行期拼进去的参数
+# Value = 英文译文，`{0}` `{1}` … 是顺序占位
+#
+# 规则：
+#   * 精确匹配优先；没有 `{}` 的条目只参与精确匹配
+#   * 带 `{}` 的条目按字面量长度从长到短试，避免短模板抢走长句子
+#   * 匹配不到的文案原样显示中文（宁可露中文，也不要露 key）
+#
+# 只翻译"玩家看得见"的文案；log 里的行（getLogger）不在这里，服主看日志用中文没关系。
+
+# ---------- 通用 ----------
+"还没有任何屏幕": "No screens yet"
+"还没有任何屏幕（/cineplay create 开始建一块）": "No screens yet (/cineplay create to build one)"
+"共 {} 块屏幕": "{0} screen(s)"
+"屏幕 {}": "Screen {0}"
+"屏幕已经不在了：{}": "That screen no longer exists: {0}"
+"找不到屏幕 {}": "Screen not found: {0}"
+"找不到屏幕 {}（/cineplay screens 看现有屏幕）": "Screen not found: {0} (/cineplay screens to list)"
+"没有叫 {} 的屏幕": "No screen named {0}"
+"还没有这块屏幕": "That screen does not exist yet"
+"玩家不在线": "Player is not online"
+"找不到在线玩家 {}": "Player {0} is not online"
+"找不到在线玩家 {}（授权对象需要在线一次）": "Player {0} is not online (they must be online once)"
+
+# ---------- 菜单 ----------
+"点下面的链接就能执行/填入：": "Click a link below to run or fill it in:"
+"[新建屏幕]": "[New screen]"
+"[刷新菜单]": "[Refresh]"
+"[完整帮助]": "[Help]"
+"新建屏幕": "New screen"
+"刷新菜单": "Refresh menu"
+"完整帮助": "Full help"
+"[管理]": "[Manage]"
+"打开这块屏的操作菜单": "Open this screen's menu"
+"[播放列表]": "[Playlist]"
+"[下一条]": "[Next]"
+"[加片]": "[Add]"
+"[音量]": "[Volume]"
+"[范围]": "[Range]"
+"[管理员]": "[Admin]"
+"[信任]": "[Trusted]"
+"[删除]": "[Delete]"
+"[◀ 返回]": "[< Back]"
+"看播放列表": "Show the playlist"
+"切到下一项": "Skip to the next item"
+"填入后粘链接": "Fill in, then paste the link"
+"0~100": "0-100"
+"起播格数": "Playback distance"
+"给管理员（能删/能授权）": "Grant admin (can delete and grant)"
+"给信任（能操控播放，不能删）": "Grant trusted (can control playback, cannot delete)"
+"先弹确认，不会一次点掉": "Asks for confirmation first"
+"删除这块屏": "Delete this screen"
+"回到屏幕列表": "Back to the screen list"
+"另有 {} 块屏（{} 格外，或没对你开放）已隐藏":
+  "{0} more screen(s) hidden (beyond {1} blocks, or not shared with you)"
+"[看全部屏幕]": "[All screens]"
+"不筛选，全列出来": "List everything, unfiltered"
+"你的身份：": "your role: "
+"主人": "owner"
+"管理员": "admin"
+"信任": "trusted"
+"公开": "public"
+"无": "none"
+"OP": "OP"
+"播放中": "Playing"
+"暂停": "Paused"
+"播完": "Finished"
+"空": "Empty"
+"附近": "nearby"
+
+# ---------- 建屏 ----------
+"还没有选好两个角：手持木锄右键点两个对角（/cineplay create 重新开始）":
+  "Corners not set yet: right-click the two opposite corners with a wooden hoe (/cineplay create to restart)"
+"屏幕名字只能用 字母/数字/下划线/点/横线，1~32 个字符":
+  "Screen names may only contain letters, digits, underscore, dot and dash (1-32 characters)"
+"已经有叫 {} 的屏幕了；换个名字，或先 /cineplay remove {}":
+  "A screen named {0} already exists; pick another name, or /cineplay remove {0} first"
+"屏幕 {} 已创建：{}": "Screen {0} created: {1}"
+"接下来用 /cineplay add {} <链接> 往播放列表里加片子":
+  "Next, /cineplay add {0} <url> to queue a video"
+"/cineplay add {} <链接>": "/cineplay add {0} <url>"
+"点击填入指令，粘上链接就能播": "Click to fill in the command, then paste the link"
+"这块屏归 {} 管，只有本人或 OP 能改": "This screen belongs to {0}; only they or an OP can change it"
+"这块屏不归你管（主人 {}）。需要主人给信任或管理员权限":
+  "This screen is not yours (owner {0}). Ask the owner for trusted or admin access"
+"这块屏没有对你开放（找主人 {} 授权）": "This screen is not shared with you (ask owner {0})"
+"只有这块屏的主人 / 管理员（或 OP）能做这件事":
+  "Only this screen's owner, an admin of it, or an OP can do that"
+"这块屏是公开的，只有主人或被单独授权的人才能删除":
+  "This screen is public, so only its owner or explicitly authorised players can delete it"
+
+# ---------- 播放列表 ----------
+"已加入屏幕 {} 的播放列表（第 {} 项）：{}": "Added to {0}'s playlist (item {1}): {2}"
+"开始播放第 1 项": "Now playing item 1"
+"正在查询时长…（查到才会自动推进下一条）":
+  "Looking up the duration… (auto-advance needs it)"
+"屏幕 {} 的播放列表（当前第 {} 项）": "{0}'s playlist (currently item {1})"
+"（空）": "(empty)"
+"（空）加一条试试：": "(empty) try adding one:"
+"点击填入指令，然后粘链接": "Click to fill in the command, then paste the link"
+"这块屏幕还没有播放列表": "This screen has no playlist yet"
+"切到第 {} 项：{}": "Now on item {0}: {1}"
+"已经是最后一项，播放列表已清空（需要重播请重新 /cineplay add）":
+  "That was the last item; the playlist has been cleared (use /cineplay add to replay)"
+
+# ---------- 权限 ----------
+"已把 {} 设为屏幕 {} 的**管理员**（能删、能授权）":
+  "{0} is now an **admin** of screen {1} (can delete and grant)"
+"已把 {} 设为屏幕 {} 的**信任者**（能操控播放，不能删）":
+  "{0} is now **trusted** on screen {1} (can control playback, cannot delete)"
+"已撤销 {} 的管理员权限": "Revoked {0}'s admin access"
+"已撤销 {} 的信任权限": "Revoked {0}'s trusted access"
+"屏幕 {} 已对所有人开放管理": "Screen {0} is now managed by everyone"
+"屏幕 {} 只允许主人与授权者管理": "Screen {0} is limited to its owner and authorised players"
+"屏幕 {}  主人 {}": "Screen {0}  owner {1}"
+"管理员（能删/能授权）：{}": "Admins (can delete / grant): {0}"
+"信任者（能操控播放）：{}": "Trusted (can control playback): {0}"
+"改：/cineplay access {} add <玩家>  → 管理员  ／  /cineplay trust {} add <玩家>  → 信任":
+  "Change: /cineplay access {0} add <player>  = admin  /  /cineplay trust {0} add <player>  = trusted"
+
+# ---------- 每屏参数 ----------
+"屏幕 {} 音量 → {}%": "Screen {0} volume -> {1}%"
+"屏幕 {} 可视范围：{} 格内起播 / {} 格外停止":
+  "Screen {0} range: starts within {1} blocks, stops past {2} blocks"
+
+# ---------- 聊天栏输入向导 ----------
+"粘贴模式：把链接直接发到聊天栏就行（{} 秒内有效，输入 cancel 取消）":
+  "Paste mode: just send the link in chat (valid for {0}s, type cancel to abort)"
+"这条消息不会发出去，会被当作 屏幕 {} 的播放源":
+  "This message will not be sent; it will be used as the source for screen {0}"
+"（下一条消息回到普通聊天）": "(your next message goes back to normal chat)"
+"已取消这次输入": "Input cancelled"
+"已取消这次粘贴": "Paste cancelled"
+"没识别到链接": "No link recognised"
+"（已退出输入模式，这条消息照常发出）": "(input mode left; the message was sent normally)"
+"音量要填 0~100 的数字": "Volume must be a number between 0 and 100"
+"范围要填格数（数字）": "Range must be a number of blocks"
+"请填玩家名（3~16 位英文/数字/下划线）": "Enter a player name (3-16 letters, digits or underscore)"
+"请在聊天栏输入音量（0~100）": "Type the volume in chat (0-100)"
+"请在聊天栏输入起播距离（格数，如 32）": "Type the playback distance in chat (blocks, e.g. 32)"
+"请在聊天栏输入要设为**管理员**的玩家名": "Type the player name to make **admin**"
+"请在聊天栏输入要设为**信任者**的玩家名": "Type the player name to make **trusted**"
+"请在聊天栏输入内容": "Type the value in chat"
+"只支持 url / volume / range / access": "Only url / volume / range / admin / trust are supported"
+
+# ---------- 删屏 ----------
+"要删除屏幕 {}？这会同时清掉它的播放列表和几何，无法撤销。":
+  "Delete screen {0}? This also clears its playlist and geometry. It cannot be undone."
+"15 秒内点下面的按钮确认：": "Click the button below within 15 seconds to confirm:"
+"[ 确认删除 {} ]": "[ Confirm delete {0} ]"
+"点了就真删": "This really deletes it"
+"屏幕 {} 已删除": "Screen {0} deleted"
+
+# ---------- 状态 / 其他 ----------
+"配置已重载": "Config reloaded"
+"当前操作槽位: {}": "Current screen: {0}"
+"当前操作槽位已切换为 {}": "Current screen switched to {0}"
+"CinePlay 菜单（{} 块屏）": "CinePlay menu ({0} screens)"
+"CinePlay 菜单（{} 格内 + 你的屏）": "CinePlay menu ({0} blocks around you + your screens)"
+"所有指令都围绕\"屏幕\"。": "All commands are screen-centric."

@@ -22,21 +22,21 @@ final class Messages {
 
     static void ok(CommandSender to, String text) {
         to.sendMessage(Component.text(PREFIX, NamedTextColor.AQUA)
-                .append(Component.text(text, NamedTextColor.WHITE)));
+                .append(Component.text(Lang.render(to, text), NamedTextColor.WHITE)));
     }
 
     static void note(CommandSender to, String text) {
-        to.sendMessage(Component.text("  " + text, NamedTextColor.GRAY));
+        to.sendMessage(Component.text("  " + Lang.render(to, text), NamedTextColor.GRAY));
     }
 
     static void warn(CommandSender to, String text) {
         to.sendMessage(Component.text(PREFIX, NamedTextColor.GOLD)
-                .append(Component.text(text, NamedTextColor.YELLOW)));
+                .append(Component.text(Lang.render(to, text), NamedTextColor.YELLOW)));
     }
 
     static void error(CommandSender to, String text) {
         to.sendMessage(Component.text(PREFIX, NamedTextColor.RED)
-                .append(Component.text(text, NamedTextColor.RED)));
+                .append(Component.text(Lang.render(to, text), NamedTextColor.RED)));
     }
 
     /**
@@ -49,11 +49,20 @@ final class Messages {
      * <p>命令值要带前导斜杠（原版约定），客户端会自己剥掉再发。
      */
     static void action(CommandSender to, String text, String command, String hover) {
-        to.sendMessage(Component.text("  ").append(actionComponent(text, command, hover)));
+        to.sendMessage(Component.text("  ").append(actionComponent(to, text, command, hover)));
     }
 
-    /** 同上，但返回 Component —— 用来把多个按钮拼在**同一行**。 */
+    /** 同上，但返回 Component —— 用来把多个按钮拼在**同一行**（会按发送者语言翻译）。 */
+    static Component actionComponent(CommandSender to, String text, String command, String hover) {
+        return actionComponentRender(Lang.render(to, text), Lang.render(to, hover), command);
+    }
+
+    /** 旧签名：没有发送者上下文，不翻译。 */
     static Component actionComponent(String text, String command, String hover) {
+        return actionComponentRender(text, hover, command);
+    }
+
+    private static Component actionComponentRender(String text, String hover, String command) {
         return Component.text(text, NamedTextColor.AQUA)
                 .decoration(TextDecoration.UNDERLINED, true)
                 .clickEvent(net.kyori.adventure.text.event.ClickEvent.runCommand(command))
@@ -63,11 +72,20 @@ final class Messages {
 
     /** 可点击的一行：点一下把命令**填进输入框**（不直接执行，适合还需要改参数的）。 */
     static void suggest(CommandSender to, String text, String command, String hover) {
-        to.sendMessage(Component.text("  ").append(suggestComponent(text, command, hover)));
+        to.sendMessage(Component.text("  ").append(suggestComponent(to, text, command, hover)));
     }
 
-    /** 同上，但返回 Component —— 用来把多个按钮拼在**同一行**。 */
+    /** 同上，但返回 Component —— 用来把多个按钮拼在**同一行**（会按发送者语言翻译）。 */
+    static Component suggestComponent(CommandSender to, String text, String command, String hover) {
+        return suggestComponentRender(Lang.render(to, text), Lang.render(to, hover), command);
+    }
+
+    /** 旧签名：没有发送者上下文，不翻译。 */
     static Component suggestComponent(String text, String command, String hover) {
+        return suggestComponentRender(text, hover, command);
+    }
+
+    private static Component suggestComponentRender(String text, String hover, String command) {
         return Component.text(text, NamedTextColor.AQUA)
                 .decoration(TextDecoration.UNDERLINED, true)
                 .clickEvent(net.kyori.adventure.text.event.ClickEvent.suggestCommand(command))

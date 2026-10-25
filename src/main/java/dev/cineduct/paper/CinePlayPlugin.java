@@ -54,6 +54,7 @@ public final class CinePlayPlugin extends JavaPlugin {
 
         this.durations = new DurationLookup(this);
         this.screens = new Screens(this);
+        Lang.load(this);
         this.screens.load();
         this.selector = new Selector(this);
         getServer().getPluginManager().registerEvents(this.selector, this);
@@ -179,6 +180,17 @@ public final class CinePlayPlugin extends JavaPlugin {
      */
     int premiumPreviewSeconds() {
         return Math.max(0, getConfig().getInt("premiumPreviewSeconds", 360));
+    }
+
+    /** 语言：{@code auto}（按玩家客户端语言）/ {@code zh} / {@code en}。控制台与离线日志用它。 */
+    String configLanguage() {
+        final String value = getConfig().getString("language", "auto");
+        if (value == null) return "zh";
+        return switch (value.toLowerCase(java.util.Locale.ROOT)) {
+            case "en", "en_us", "english" -> "en";
+            case "zh", "zh_cn", "chinese" -> "zh";
+            default -> "auto".equalsIgnoreCase(value) ? "zh" : "zh";   // auto 的控制台默认中文
+        };
     }
 
     /** 菜单里"附近"的范围（格）：超出这个距离的屏只在拥有者视角下显示。 */
